@@ -5,6 +5,11 @@
  */
 package se.kth.id1212.npproject4.device.controller;
 
+import java.io.IOException;
+import java.net.ProtocolException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author aleks_uuia3ly
@@ -12,6 +17,12 @@ package se.kth.id1212.npproject4.device.controller;
 public class main {
     public static void main(String[] args) {
         DeviceController test = new DeviceController();
-        test.someMethod();
+        try {
+            test.getDeviceInfo();
+        } catch (ProtocolException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 }
