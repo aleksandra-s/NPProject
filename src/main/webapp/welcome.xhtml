@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Laser Device Manager</title>
+    </h:head>
+    <h:body>
+        <h1>Laser Device Manager</h1>
+
+        <h3>Current device</h3>
+        <p>
+            <h:outputLabel for="id" rendered="#{webPresentationManager.currentDevice != null}"  value="id: "/>
+            <h:outputText id="id" value="#{webPresentationManager.currentDevice.id}"/>
+            <h:outputLabel for="creditBalance" rendered="#{webPresentationManager.currentDevice != null}"  value="Credit Balance: "/>
+            <h:outputText id="creditBalance" value="#{webPresentationManager.currentDevice.creditBalance}"/>
+            <h:outputLabel for="subscriptionTime" rendered="#{webPresentationManager.currentDevice != null}"  value="Subscription: "/>
+            <h:outputText id="subscriptionTime" value="#{webPresentationManager.subscriptionTimeToString}"/>
+            
+            <h:outputText rendered="#{webPresentationManager.currentDevice == null}"  value="No current device."/>
+        </p>
+        <p>
+            <h:outputLabel for="deviceUser" rendered="#{webPresentationManager.currentDevice != null}"  value="Device owner: "/>
+        </p>
+        <hr/>
+
+        <h:form>
+            <h3>Find Device</h3>
+            <p>
+                <h:outputLabel for="soughtDevice" value="Serial Number: "/>
+                <h:inputText id="soughtDevice" value="#{webPresentationManager.soughtDevice}"/>
+            </p>
+            <p>
+                <h:commandButton value="Search" action="#{webPresentationManager.findDevice}"/>
+            </p>
+            <hr/>
+
+            <h3>Buy Credits</h3>
+            <p>
+                <h:outputLabel for="purchaseAmount" value="Amount of credits: "/>
+                <h:inputText id="purchaseAmount" value="#{webPresentationManager.purchaseAmount}"/>
+            </p>
+            <p>
+                <h:commandButton value="Purchase" action="#{webPresentationManager.addCredits}"/>
+            </p>
+            <hr/>
+
+        </h:form>
+
+    </h:body>
+</html>
