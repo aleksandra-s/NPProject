@@ -9,7 +9,7 @@ import javax.enterprise.context.ConversationScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import se.kth.id1212.npproject4.web.controller.UserFacade;
-import se.kth.id1212.npproject4.model.DeviceEntity;
+import se.kth.id1212.npproject4.web.model.DeviceEntity;
 
 //Handles all interaction with the conversion JSF page.
 

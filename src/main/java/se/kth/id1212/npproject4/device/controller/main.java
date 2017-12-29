@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  */
 public class main {
     public static void main(String[] args) {
-        DeviceController test = new DeviceController("1");
+        DeviceConnectionController test = new DeviceConnectionController("1");
         try {
             test.getDeviceInfo();
         } catch (ProtocolException ex) {

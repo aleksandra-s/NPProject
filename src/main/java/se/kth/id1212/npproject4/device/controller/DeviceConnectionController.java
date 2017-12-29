@@ -18,14 +18,14 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 //import javax.ws.rs.client.*;
 import javax.ws.rs.core.MediaType;
-import se.kth.id1212.npproject4.model.DeviceEntity;
+import se.kth.id1212.npproject4.web.model.DeviceEntity;
 
 /**
  *
  * @author aleks_uuia3ly
  */
-public class DeviceController {
-    private static final String REST_URI = "http://localhost:8080/NPProject4/webresources/se.kth.id1212.npproject4.model.deviceentity";
+public class DeviceConnectionController {
+    private static final String REST_URI = "http://localhost:8080/NPProject4/webresources/se.kth.id1212.npproject4.web.model.deviceentity";
     //private static final String REST_URI_2;
     /*private Client client = ClientBuilder.newClient();
     private DeviceEntity device;*/
@@ -34,7 +34,7 @@ public class DeviceController {
     private String user;
     private Time subscriptionEnd;
     
-    public DeviceController(String id){
+    public DeviceConnectionController(String id){
         deviceURL = REST_URI + "/" + id;
     }
     
@@ -88,7 +88,19 @@ public class DeviceController {
         System.out.println(numberOfPulses);
     }
     
-    
+    public void updatePulses(int receivedPulses){
+        int pulsesFromFile = 30;
+        int compare = pulsesFromFile - receivedPulses;
+        if(compare <= 0){
+            //send receivedPulses + pulsesFromFile to file
+            
+        }
+        else if(compare > 0){
+            if(compare != pulsesFromFile){
+                //send receivedPulses + pulsesFromFile to file
+            }
+        }
+    }
     
 }
 

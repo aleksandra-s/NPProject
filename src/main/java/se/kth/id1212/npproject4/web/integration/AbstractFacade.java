@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.kth.id1212.npproject4.integration;
+package se.kth.id1212.npproject4.web.integration;
 
 import java.util.List;
 import javax.persistence.EntityManager;

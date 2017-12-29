@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.kth.id1212.npproject4.model;
+package se.kth.id1212.npproject4.web.model;
 
 import java.io.Serializable;
 import java.sql.Time;
@@ -75,7 +75,7 @@ public class DeviceEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "se.kth.id1212.npproject4.model.DeviceEntity[ id=" + id + " ]";
+        return "se.kth.id1212.npproject4.web.model.DeviceEntity[ id=" + id + " ]";
     }
     
 }

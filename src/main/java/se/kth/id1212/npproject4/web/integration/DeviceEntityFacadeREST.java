@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.kth.id1212.npproject4.integration;
+package se.kth.id1212.npproject4.web.integration;
 
 import java.util.List;
 import javax.ejb.Stateless;
@@ -18,14 +18,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import se.kth.id1212.npproject4.model.DeviceEntity;
+import se.kth.id1212.npproject4.web.model.DeviceEntity;
 
 /**
  *
  * @author aleks_uuia3ly
  */
 @Stateless
-@Path("se.kth.id1212.npproject4.model.deviceentity")
+@Path("se.kth.id1212.npproject4.web.model.deviceentity")
 public class DeviceEntityFacadeREST extends AbstractFacade<DeviceEntity> {
 
     @PersistenceContext(unitName = "se.kth.id1212_NPProject4_war_1.0-SNAPSHOTPU")

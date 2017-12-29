@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import se.kth.id1212.npproject4.device.controller.DeviceController;
+import se.kth.id1212.npproject4.device.controller.DeviceConnectionController;
 
 /**
  *
@@ -19,7 +19,7 @@ import se.kth.id1212.npproject4.device.controller.DeviceController;
 public class DeviceSimulator implements Runnable{
     private boolean receivingCmds = false;
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    private DeviceController deviceController;
+    private DeviceConnectionController deviceController;
     
     //Start thread for run method
     public void start(){
@@ -28,7 +28,7 @@ public class DeviceSimulator implements Runnable{
         }
         receivingCmds = true;
         new Thread(this).start();
-        //deviceController = new DeviceController();
+        //deviceController = new DeviceConnectionController();
     }
     
     @Override
@@ -38,7 +38,7 @@ public class DeviceSimulator implements Runnable{
         System.out.print("> ");
         try {
             String id = reader.readLine();
-            deviceController = new DeviceController(id);
+            deviceController = new DeviceConnectionController(id);
         } catch (IOException ex) {
             ex.printStackTrace();
         }

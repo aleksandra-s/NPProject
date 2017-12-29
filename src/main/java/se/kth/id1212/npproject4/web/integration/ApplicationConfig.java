@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.kth.id1212.npproject4.integration;
+package se.kth.id1212.npproject4.web.integration;
 
 import java.util.Set;
 import javax.ws.rs.core.Application;
@@ -29,7 +29,7 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(se.kth.id1212.npproject4.integration.DeviceEntityFacadeREST.class);
+        resources.add(se.kth.id1212.npproject4.web.integration.DeviceEntityFacadeREST.class);
     }
     
 }
