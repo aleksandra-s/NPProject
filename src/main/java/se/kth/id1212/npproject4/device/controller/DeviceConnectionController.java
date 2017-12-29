@@ -14,6 +14,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.Time;
+import java.util.Date;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 //import javax.ws.rs.client.*;
@@ -89,7 +90,7 @@ public class DeviceConnectionController {
     }
     
     public void updatePulses(int receivedPulses){
-        int pulsesFromFile = 30;
+        int pulsesFromFile = 30; //get pulses from file
         int compare = pulsesFromFile - receivedPulses;
         if(compare <= 0){
             //send receivedPulses + pulsesFromFile to file
@@ -102,5 +103,8 @@ public class DeviceConnectionController {
         }
     }
     
+    public void parseSubscription (String httpResponse){
+       
+    }
 }
 
