@@ -6,6 +6,7 @@
 package se.kth.id1212.npproject4.model;
 
 import java.io.Serializable;
+import java.sql.Time;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +26,7 @@ public class DeviceEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private int creditBalance;
+    private Time subscriptionTime;
 
     public Long getId() {
         return id;
@@ -41,6 +43,15 @@ public class DeviceEntity implements Serializable {
     public void setCreditBalance(int creditBalance) {
         this.creditBalance = creditBalance;
     }
+    
+    public Time getSubscriptionTime() {
+        return this.subscriptionTime;
+    }
+
+    public void setSubscriptionTime(Time subscriptionTime) {
+        this.subscriptionTime = subscriptionTime;
+    }
+
 
     @Override
     public int hashCode() {

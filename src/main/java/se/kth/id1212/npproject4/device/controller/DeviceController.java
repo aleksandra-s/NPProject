@@ -25,19 +25,25 @@ import se.kth.id1212.npproject4.model.DeviceEntity;
  * @author aleks_uuia3ly
  */
 public class DeviceController {
-    private static final String REST_URI = "http://localhost:8080/NPProject4/webresources/se.kth.id1212.npproject4.model.deviceentity/1";
+    private static final String REST_URI = "http://localhost:8080/NPProject4/webresources/se.kth.id1212.npproject4.model.deviceentity";
+    //private static final String REST_URI_2;
     /*private Client client = ClientBuilder.newClient();
     private DeviceEntity device;*/
+    private String deviceURL;
     private int numberOfPulses;
     private String user;
     private Time subscriptionEnd;
+    
+    public DeviceController(String id){
+        deviceURL = REST_URI + "/" + id;
+    }
     
     public void getDeviceInfo() throws MalformedURLException, ProtocolException, IOException {
         /*
             long id = 1;
             device = client.target(REST_URI).path(String.valueOf((Long) id)).request(MediaType.TEXT_PLAIN).get(DeviceEntity.class);
             System.out.println(device);*/
-        URL url = new URL(REST_URI);
+        URL url = new URL(deviceURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Accept", "application/xml");
@@ -55,9 +61,34 @@ public class DeviceController {
         String line = reader.readLine();
         while (line != null) {
            System.out.println(line);
+           parsePulses(line);
            line = reader.readLine();
         }
         connection.disconnect();
     }
+    
+    public void parsePulses(String httpResponse){
+        int charCounter = 0;
+        int j = 0;
+        int k = 0;
+        for(int i = 0; i < httpResponse.length(); i++){
+            if(httpResponse.charAt(i) == '<' || httpResponse.charAt(i) == '>'){
+                charCounter++;
+            }
+            if(charCounter == 6){
+                j = i;
+            }
+            if(charCounter == 7){
+                k = i;
+                break;
+            }
+        }
+        String pulses = httpResponse.substring(j - 1,k);
+        this.numberOfPulses = Integer.parseInt(pulses);
+        System.out.println(numberOfPulses);
+    }
+    
+    
+    
 }
 
