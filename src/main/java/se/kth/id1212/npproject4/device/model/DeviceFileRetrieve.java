@@ -34,6 +34,7 @@ public class DeviceFileRetrieve {
             FileWriter fw = new FileWriter("C:/Users/aleks_uuia3ly/Documents/NetBeansProjects/NPProject4/src/main/resources/device" + deviceSerialNumber + ".txt");
             BufferedWriter bw = new BufferedWriter(fw);
             bw.write("0");
+            bw.newLine();
             bw.write("0");
             bw.close();
         }
@@ -77,7 +78,7 @@ public class DeviceFileRetrieve {
         bw.close();*/
     }
     
-    public void storeSubscriptionDateInFile(String deviceSerialNumber, String subscriptionTime) throws IOException{
+    public void storeSubscriptionDateFromServerInFile(String deviceSerialNumber, String subscriptionTime) throws IOException{
         File file = new File("C:/Users/aleks_uuia3ly/Documents/NetBeansProjects/NPProject4/src/main/resources/device" + deviceSerialNumber + ".txt");
         boolean exists = file.exists();
         

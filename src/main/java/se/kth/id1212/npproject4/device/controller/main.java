@@ -22,10 +22,11 @@ public class main {
         DeviceFileRetrieve filetest = new DeviceFileRetrieve();
         try {
             //test.getDeviceInfo();
-            test2.getDeviceInfo();
-            System.out.println(filetest.getDataFromFile("1"));
-            filetest.storePulsesFromServerInFile("1","20");
-            System.out.println(filetest.getDataFromFile("1"));
+            //test2.getDeviceInfo();
+            test2.start();
+            System.out.println(filetest.getDataFromFile("2"));
+            //filetest.storePulsesFromServerInFile("3","20");
+            //System.out.println(filetest.getDataFromFile("3"));
         } catch (ProtocolException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {

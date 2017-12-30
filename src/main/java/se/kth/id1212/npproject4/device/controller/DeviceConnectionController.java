@@ -35,7 +35,8 @@ public class DeviceConnectionController implements Runnable{
     private final String deviceURL;
     private final String deviceSerialNumber;
     private int numberOfPulses;
-    private Date subscriptionEnd;
+    private Date subscriptionDate;
+    private String subscriptionString;
     private final DeviceFileRetrieve fileRetrieve;
     
     public DeviceConnectionController(String id){
@@ -53,7 +54,8 @@ public class DeviceConnectionController implements Runnable{
         try {
             while (true) {
                 getDeviceInfo();
-                updatePulses(numberOfPulses);
+                updatePulses(this.numberOfPulses);
+                updateSubscriptionDate(this.subscriptionDate, this.subscriptionString);
                 Thread.sleep(5 * 1000);
             }
         } catch (Exception e) {
@@ -80,8 +82,10 @@ public class DeviceConnectionController implements Runnable{
         String line = reader.readLine();
         while (line != null) {
            System.out.println(line);
-           parsePulses(line);
-           parseSubscription(line);
+           parsePulses(line); //Parsing out pulses
+           System.out.println("Pulses received from server: " + numberOfPulses);
+           parseSubscription(line); //Parsing out subscription
+           System.out.println("Subscription received from server " + subscriptionString);
            line = reader.readLine();
         }
         connection.disconnect();
@@ -107,11 +111,18 @@ public class DeviceConnectionController implements Runnable{
         }
         String pulses = httpResponse.substring(j + 1,k);
         this.numberOfPulses = Integer.parseInt(pulses);
-        System.out.println(numberOfPulses);
+        //System.out.println(numberOfPulses);
     }
     
     public void updatePulses(int receivedPulses) throws IOException{
-        int pulsesFromFile = Integer.parseInt(fileRetrieve.getDataFromFile(deviceSerialNumber)); //get pulses from file
+        String deviceDataFromFile = fileRetrieve.getDataFromFile(deviceSerialNumber);
+        int i;
+        for(i = 0; i < deviceDataFromFile.length(); i++){
+            if(deviceDataFromFile.charAt(i) == ','){
+                break;
+            }
+        }
+        int pulsesFromFile = Integer.parseInt(deviceDataFromFile.substring(0,i)); //get pulses from file
         int compare = pulsesFromFile - receivedPulses;
         if(compare <= 0){
             //send receivedPulses + pulsesFromFile to file
@@ -144,14 +155,45 @@ public class DeviceConnectionController implements Runnable{
                 temp.append(httpResponse.charAt(i + 1));
             }
         }
-        String subscriptionDate = temp.toString();
+        this.subscriptionString = temp.toString();
         try {
-            subscriptionEnd = new SimpleDateFormat("yyyy-MM-dd").parse(subscriptionDate);
+            this.subscriptionDate = new SimpleDateFormat("yyyy-MM-dd").parse(subscriptionString);
+            //System.out.println("Printing date after parsing:" + this.subscriptionEnd);
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
         //this.subscriptionEnd = ;
-        System.out.println(subscriptionDate);
+        //System.out.println(subscriptionDate);
+    }
+    
+    public void updateSubscriptionDate(Date receivedSubscription, String subscriptionString) throws IOException{
+        String deviceDataFromFile = fileRetrieve.getDataFromFile(deviceSerialNumber);
+        System.out.println("device date from file: " + deviceDataFromFile);
+        int j = 0;
+        //int k = 0;
+        int commaCounter = 0;
+        Date subscriptionFromFile = null;
+        for(int i = 0; i < deviceDataFromFile.length(); i++){
+            //System.out.println(deviceDataFromFile.charAt(i));
+            if(deviceDataFromFile.charAt(i) == ','){
+                j = i;
+                //System.out.println("Comma counter " + commaCounter);
+            }
+        }
+        //System.out.println("J: " + j);
+        String subscriptionData = deviceDataFromFile.substring(j+1); //get pulses from file
+        try {
+            subscriptionFromFile = new SimpleDateFormat("yyyy-MM-dd").parse(subscriptionData);
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }; //get pulses from file
+        if(!receivedSubscription.equals(subscriptionFromFile)){
+            fileRetrieve.storeSubscriptionDateFromServerInFile(deviceSerialNumber, subscriptionString);
+        }
+    }
+    
+    public void updateServerDatabase(){
+        
     }
 }
 
