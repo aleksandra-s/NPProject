@@ -14,6 +14,8 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,8 +35,7 @@ public class DeviceConnectionController implements Runnable{
     private final String deviceURL;
     private final String deviceSerialNumber;
     private int numberOfPulses;
-    private String user;
-    private Time subscriptionEnd;
+    private Date subscriptionEnd;
     private final DeviceFileRetrieve fileRetrieve;
     
     public DeviceConnectionController(String id){
@@ -80,6 +81,7 @@ public class DeviceConnectionController implements Runnable{
         while (line != null) {
            System.out.println(line);
            parsePulses(line);
+           parseSubscription(line);
            line = reader.readLine();
         }
         connection.disconnect();
@@ -87,21 +89,23 @@ public class DeviceConnectionController implements Runnable{
     
     public void parsePulses(String httpResponse){
         int charCounter = 0;
+        boolean setJ = false;
         int j = 0;
         int k = 0;
         for(int i = 0; i < httpResponse.length(); i++){
             if(httpResponse.charAt(i) == '<' || httpResponse.charAt(i) == '>'){
                 charCounter++;
             }
-            if(charCounter == 6){
+            if(charCounter == 6 && !setJ){
                 j = i;
+                setJ = true;
             }
             if(charCounter == 7){
                 k = i;
                 break;
             }
         }
-        String pulses = httpResponse.substring(j - 1,k);
+        String pulses = httpResponse.substring(j + 1,k);
         this.numberOfPulses = Integer.parseInt(pulses);
         System.out.println(numberOfPulses);
     }
@@ -124,7 +128,30 @@ public class DeviceConnectionController implements Runnable{
     }
     
     public void parseSubscription (String httpResponse){
-       
+        int charCounter = 0;
+        StringBuilder temp = new StringBuilder();
+        /*boolean setJ = false;
+        int j = 0;
+        int k = 0;*/
+        for(int i = 0; i < httpResponse.length(); i++){
+            if(httpResponse.charAt(i) == '>'){
+                charCounter++;
+            }
+            if(charCounter == 7){
+                if(httpResponse.charAt(i + 1) == 'T'){
+                    break;
+                }
+                temp.append(httpResponse.charAt(i + 1));
+            }
+        }
+        String subscriptionDate = temp.toString();
+        try {
+            subscriptionEnd = new SimpleDateFormat("yyyy-MM-dd").parse(subscriptionDate);
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        //this.subscriptionEnd = ;
+        System.out.println(subscriptionDate);
     }
 }
 

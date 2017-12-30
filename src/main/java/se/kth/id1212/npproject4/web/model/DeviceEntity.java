@@ -7,10 +7,12 @@ package se.kth.id1212.npproject4.web.model;
 
 import java.io.Serializable;
 import java.sql.Time;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -26,7 +28,8 @@ public class DeviceEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private int creditBalance;
-    private Time subscriptionTime;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date subscriptionDate;
 
     public Long getId() {
         return id;
@@ -44,12 +47,12 @@ public class DeviceEntity implements Serializable {
         this.creditBalance = creditBalance;
     }
     
-    public Time getSubscriptionTime() {
-        return this.subscriptionTime;
+    public Date getSubscriptionDate() {
+        return this.subscriptionDate;
     }
 
-    public void setSubscriptionTime(Time subscriptionTime) {
-        this.subscriptionTime = subscriptionTime;
+    public void setSubscriptionDate(Date subscriptionDate) {
+        this.subscriptionDate = subscriptionDate;
     }
 
 

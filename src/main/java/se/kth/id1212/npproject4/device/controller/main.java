@@ -17,10 +17,12 @@ import se.kth.id1212.npproject4.device.model.DeviceFileRetrieve;
  */
 public class main {
     public static void main(String[] args) {
-        DeviceConnectionController test = new DeviceConnectionController("1");
+        //DeviceConnectionController test = new DeviceConnectionController("1");
+        DeviceConnectionController test2 = new DeviceConnectionController("2");
         DeviceFileRetrieve filetest = new DeviceFileRetrieve();
         try {
-            test.getDeviceInfo();
+            //test.getDeviceInfo();
+            test2.getDeviceInfo();
             System.out.println(filetest.getDataFromFile("1"));
             filetest.storePulsesFromServerInFile("1","20");
             System.out.println(filetest.getDataFromFile("1"));

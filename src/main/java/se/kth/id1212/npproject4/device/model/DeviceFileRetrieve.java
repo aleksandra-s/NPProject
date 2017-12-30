@@ -77,6 +77,21 @@ public class DeviceFileRetrieve {
         bw.close();*/
     }
     
+    public void storeSubscriptionDateInFile(String deviceSerialNumber, String subscriptionTime) throws IOException{
+        File file = new File("C:/Users/aleks_uuia3ly/Documents/NetBeansProjects/NPProject4/src/main/resources/device" + deviceSerialNumber + ".txt");
+        boolean exists = file.exists();
+        
+        if(!exists){
+            file.createNewFile();
+        }
+        
+        Path path = Paths.get("C:/Users/aleks_uuia3ly/Documents/NetBeansProjects/NPProject4/src/main/resources/device" + deviceSerialNumber + ".txt");
+        List<String> fileContent = new ArrayList<>(Files.readAllLines(path, StandardCharsets.UTF_8));
+        fileContent.set(1,subscriptionTime);
+
+        Files.write(path, fileContent, StandardCharsets.UTF_8);
+    }
+    
     public void storeUsedPulsesFromDeviceInFile(String deviceSerialNumber, String pulsesUsed) throws IOException{
         File file = new File("C:/Users/aleks_uuia3ly/Documents/NetBeansProjects/NPProject4/src/main/resources/device" + deviceSerialNumber + ".txt");
         boolean exists = file.exists();
