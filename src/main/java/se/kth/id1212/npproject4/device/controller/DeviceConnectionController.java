@@ -15,35 +15,52 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.sql.Time;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 //import javax.ws.rs.client.*;
 import javax.ws.rs.core.MediaType;
+import se.kth.id1212.npproject4.device.model.DeviceFileRetrieve;
 import se.kth.id1212.npproject4.web.model.DeviceEntity;
 
 /**
  *
  * @author aleks_uuia3ly
  */
-public class DeviceConnectionController {
+public class DeviceConnectionController implements Runnable{
     private static final String REST_URI = "http://localhost:8080/NPProject4/webresources/se.kth.id1212.npproject4.web.model.deviceentity";
-    //private static final String REST_URI_2;
-    /*private Client client = ClientBuilder.newClient();
-    private DeviceEntity device;*/
-    private String deviceURL;
+    private final String deviceURL;
+    private final String deviceSerialNumber;
     private int numberOfPulses;
     private String user;
     private Time subscriptionEnd;
+    private final DeviceFileRetrieve fileRetrieve;
     
     public DeviceConnectionController(String id){
         deviceURL = REST_URI + "/" + id;
+        fileRetrieve = new DeviceFileRetrieve();
+        deviceSerialNumber = id;
+    }
+    
+    public void start(){
+        new Thread(this).start();
+    }
+    
+    @Override
+    public void run() {
+        try {
+            while (true) {
+                getDeviceInfo();
+                updatePulses(numberOfPulses);
+                Thread.sleep(5 * 1000);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     public void getDeviceInfo() throws MalformedURLException, ProtocolException, IOException {
-        /*
-            long id = 1;
-            device = client.target(REST_URI).path(String.valueOf((Long) id)).request(MediaType.TEXT_PLAIN).get(DeviceEntity.class);
-            System.out.println(device);*/
         URL url = new URL(deviceURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
@@ -89,16 +106,19 @@ public class DeviceConnectionController {
         System.out.println(numberOfPulses);
     }
     
-    public void updatePulses(int receivedPulses){
-        int pulsesFromFile = 30; //get pulses from file
+    public void updatePulses(int receivedPulses) throws IOException{
+        int pulsesFromFile = Integer.parseInt(fileRetrieve.getDataFromFile(deviceSerialNumber)); //get pulses from file
         int compare = pulsesFromFile - receivedPulses;
         if(compare <= 0){
             //send receivedPulses + pulsesFromFile to file
-            
+            String pulsesToStore = Integer.toString(pulsesFromFile + receivedPulses);
+            fileRetrieve.storePulsesFromServerInFile(deviceSerialNumber, pulsesToStore);
         }
         else if(compare > 0){
             if(compare != pulsesFromFile){
                 //send receivedPulses + pulsesFromFile to file
+                String pulsesToStore = Integer.toString(pulsesFromFile + receivedPulses);
+                fileRetrieve.storePulsesFromServerInFile(deviceSerialNumber, pulsesToStore);
             }
         }
     }

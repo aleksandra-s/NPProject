@@ -21,9 +21,9 @@ public class main {
         DeviceFileRetrieve filetest = new DeviceFileRetrieve();
         try {
             test.getDeviceInfo();
-            System.out.println(filetest.getAvailablePulsesFromFile("2"));
-            filetest.storeAvailablePulsesInFile("2","10");
-            System.out.println(filetest.getAvailablePulsesFromFile("2"));
+            System.out.println(filetest.getDataFromFile("1"));
+            filetest.storePulsesFromServerInFile("1","20");
+            System.out.println(filetest.getDataFromFile("1"));
         } catch (ProtocolException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
