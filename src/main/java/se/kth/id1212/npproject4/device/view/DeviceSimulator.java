@@ -22,26 +22,27 @@ public class DeviceSimulator implements Runnable{
     private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private DeviceConnectionController deviceConnectionController;
     private DeviceDisplayController deviceDisplayController;
+    private DeviceSimulatorOutput outputHandler;
     
     //Start thread for run method
     public void start(){
-        if(receivingCmds){
-            return;
-        }
-        receivingCmds = true;
+        outputHandler = new DeviceSimulatorOutput();
         new Thread(this).start();
         //deviceController = new DeviceConnectionController();
     }
     
     @Override
     public void run(){  
-        System.out.println("Laser Device Simulator");
-        System.out.println("Please enter your device serial number:");
-        System.out.print("> ");
+        outputHandler.printLine("Laser Device Simulator");
+        outputHandler.printLine("Please enter your device serial number:");
+        outputHandler.printLine("> ");
         try {
             String id = reader.readLine();
+            outputHandler.printLine("Initializing...");
             deviceConnectionController = new DeviceConnectionController(id);
             deviceDisplayController = new DeviceDisplayController(id);
+            deviceConnectionController.start();
+            deviceDisplayController.start();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

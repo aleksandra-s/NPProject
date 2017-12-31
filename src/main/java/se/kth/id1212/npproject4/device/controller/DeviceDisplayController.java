@@ -5,6 +5,7 @@
  */
 package se.kth.id1212.npproject4.device.controller;
 
+import java.util.Date;
 import se.kth.id1212.npproject4.device.model.DeviceFileRetrieve;
 
 /**
@@ -14,6 +15,9 @@ import se.kth.id1212.npproject4.device.model.DeviceFileRetrieve;
 public class DeviceDisplayController implements Runnable{
     private final String deviceSerialNumber;
     private final DeviceFileRetrieve fileRetrieve;
+    private int pulsesToUse;
+    private Date subscriptionDate;
+    private String subscriptionString;
     
     
     public DeviceDisplayController(String id){
@@ -27,6 +31,16 @@ public class DeviceDisplayController implements Runnable{
     
     @Override
     public void run() {
-        
+        try {
+            while (true) {
+                //getDeviceInfo();
+                Thread.sleep(5 * 1000);
+                
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+    
+    //public getAvailablePulsesInFile
 }

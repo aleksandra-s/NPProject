@@ -25,7 +25,7 @@ import java.util.List;
  * @author aleks_uuia3ly
  */
 public class DeviceFileRetrieve {
-    public String getDataFromFile(String deviceSerialNumber) throws IOException {
+    synchronized public String getDataFromFile(String deviceSerialNumber) throws IOException {
         // Take the words from the word.txt file
         File file = new File("C:/Users/aleks_uuia3ly/Documents/NetBeansProjects/NPProject4/src/main/resources/device" + deviceSerialNumber + ".txt");
         boolean exists = file.exists();
@@ -55,7 +55,7 @@ public class DeviceFileRetrieve {
         }
     }
     
-    public void storePulsesFromServerInFile(String deviceSerialNumber, String numberOfCredits) throws IOException{
+    synchronized public void storePulsesFromServerInFile(String deviceSerialNumber, String numberOfCredits) throws IOException{
         File file = new File("C:/Users/aleks_uuia3ly/Documents/NetBeansProjects/NPProject4/src/main/resources/device" + deviceSerialNumber + ".txt");
         boolean exists = file.exists();
         if(!exists){
@@ -78,7 +78,7 @@ public class DeviceFileRetrieve {
         bw.close();*/
     }
     
-    public void storeSubscriptionDateFromServerInFile(String deviceSerialNumber, String subscriptionTime) throws IOException{
+    synchronized public void storeSubscriptionDateFromServerInFile(String deviceSerialNumber, String subscriptionTime) throws IOException{
         File file = new File("C:/Users/aleks_uuia3ly/Documents/NetBeansProjects/NPProject4/src/main/resources/device" + deviceSerialNumber + ".txt");
         boolean exists = file.exists();
         
@@ -93,7 +93,7 @@ public class DeviceFileRetrieve {
         Files.write(path, fileContent, StandardCharsets.UTF_8);
     }
     
-    public void storeUsedPulsesFromDeviceInFile(String deviceSerialNumber, String pulsesUsed) throws IOException{
+    synchronized public void storeUsedPulsesFromDeviceInFile(String deviceSerialNumber, String pulsesUsed) throws IOException{
         File file = new File("C:/Users/aleks_uuia3ly/Documents/NetBeansProjects/NPProject4/src/main/resources/device" + deviceSerialNumber + ".txt");
         boolean exists = file.exists();
         

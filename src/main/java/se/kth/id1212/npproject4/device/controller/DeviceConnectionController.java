@@ -56,7 +56,7 @@ public class DeviceConnectionController implements Runnable{
                 getDeviceInfo();
                 updatePulses(this.numberOfPulses);
                 updateSubscriptionDate(this.subscriptionDate, this.subscriptionString);
-                Thread.sleep(5 * 1000);
+                Thread.sleep(60 * 1000);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -168,10 +168,10 @@ public class DeviceConnectionController implements Runnable{
     
     public void updateSubscriptionDate(Date receivedSubscription, String subscriptionString) throws IOException{
         String deviceDataFromFile = fileRetrieve.getDataFromFile(deviceSerialNumber);
-        System.out.println("device date from file: " + deviceDataFromFile);
+        System.out.println("device data from file: " + deviceDataFromFile);
         int j = 0;
         //int k = 0;
-        int commaCounter = 0;
+        //int commaCounter = 0;
         Date subscriptionFromFile = null;
         for(int i = 0; i < deviceDataFromFile.length(); i++){
             //System.out.println(deviceDataFromFile.charAt(i));

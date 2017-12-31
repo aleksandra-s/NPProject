@@ -11,17 +11,14 @@
 
         <h3>Current device</h3>
         <p>
-            <h:outputLabel for="id" rendered="#{webPresentationManager.currentDevice != null}"  value="id: "/>
-            <h:outputText id="id" value="#{webPresentationManager.currentDevice.id}"/>
-            <h:outputLabel for="creditBalance" rendered="#{webPresentationManager.currentDevice != null}"  value="Credit Balance: "/>
-            <h:outputText id="creditBalance" value="#{webPresentationManager.currentDevice.creditBalance}"/>
-            <h:outputLabel for="subscriptionTime" rendered="#{webPresentationManager.currentDevice != null}"  value="Subscription: "/>
+            <h:outputLabel for="id" rendered="#{webPresentationManager.currentDevice != null}"  value="Serial Number: "/>
+            <h:outputText id="id" value=" #{webPresentationManager.currentDevice.id}"/>
+            <h:outputLabel for="creditBalance" rendered="#{webPresentationManager.currentDevice != null}"  value=" Credit Balance: "/>
+            <h:outputText id="creditBalance" value=" #{webPresentationManager.currentDevice.creditBalance}"/>
+            <h:outputLabel for="subscriptionTime" rendered="#{webPresentationManager.currentDevice != null}"  value=" Subscription: "/>
             <h:outputText id="subscriptionTime" value="#{webPresentationManager.subscriptionTimeToString}"/>
             
             <h:outputText rendered="#{webPresentationManager.currentDevice == null}"  value="No current device."/>
-        </p>
-        <p>
-            <h:outputLabel for="deviceUser" rendered="#{webPresentationManager.currentDevice != null}"  value="Device owner: "/>
         </p>
         <hr/>
 
@@ -45,6 +42,19 @@
                 <h:commandButton value="Purchase" action="#{webPresentationManager.addCredits}"/>
             </p>
             <hr/>
+            
+            <h3>Buy Subscription*</h3>
+            <p>
+            <h:selectOneMenu value = "#{webPresentationManager.subscriptionChoice}"> 
+                <f:selectItem itemValue = "day" itemLabel = "one day subscription" /> 
+                <f:selectItem itemValue = "week" itemLabel = "one week subscription" /> 
+                <f:selectItem itemValue = "month" itemLabel = "one month subscription" />   
+             </h:selectOneMenu>  
+            </p>
+            <h3>*If selected subscription has later end-date than current subscription, current subscription will be overwritten.</h3>
+            <p>
+                <h:commandButton value="Purchase" action="#{webPresentationManager.updateSubscription}"/>
+            </p>
 
         </h:form>
 
