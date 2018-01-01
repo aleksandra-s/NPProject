@@ -5,6 +5,9 @@
  */
 package se.kth.id1212.npproject4.web.integration;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -46,6 +49,15 @@ public class DeviceEntityFacadeREST extends AbstractFacade<DeviceEntity> {
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
     public void edit(@PathParam("id") Long id, DeviceEntity entity) {
+        super.edit(entity);
+    }
+    
+    @PUT
+    @Path("{id}/{credits}")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
+    public void editFromDevice(@PathParam("id") Long id, @PathParam("credits") int creditBalance){
+        DeviceEntity entity = super.find(id);
+        entity.setCreditBalance(creditBalance);
         super.edit(entity);
     }
 

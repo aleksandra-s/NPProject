@@ -8,6 +8,7 @@ package se.kth.id1212.npproject4.device.controller;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -138,6 +139,7 @@ public class DeviceConnectionController implements Runnable{
         }*/
         String pulsesToStore = Integer.toString(pulsesFromFile + receivedPulses);
         fileRetrieve.storePulsesFromServerInFile(deviceSerialNumber, pulsesToStore);
+        updateServerDatabase();
     }
     
     public void parseSubscription (String httpResponse){
@@ -200,8 +202,21 @@ public class DeviceConnectionController implements Runnable{
         }
     }
     
-    public void updateServerDatabase(){
-        
+    public void updateServerDatabase() throws MalformedURLException, IOException{
+        URL url = new URL(deviceURL + "/0");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setDoOutput(true);
+        connection.setInstanceFollowRedirects(false);
+        connection.setRequestMethod("PUT");
+        connection.setRequestProperty("Content-Type", "application/xml");
+        //OutputStream os = connection.getOutputStream();
+        //os.write("<customer id='333'/>".getBytes());
+       // os.flush();
+        /*if (connection.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
+           throw new RuntimeException("Failed to create customer" + connection.getResponseCode());
+        }*/
+        //System.out.println("Location: " + connection.getHeaderField("Location"));
+        connection.disconnect();
     }
 }
 

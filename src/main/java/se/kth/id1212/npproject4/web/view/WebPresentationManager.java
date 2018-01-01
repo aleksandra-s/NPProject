@@ -52,7 +52,9 @@ public class WebPresentationManager implements Serializable {
         try {
             startConversation();
             conversionFailure = null;
-            currentDevice.setCreditBalance(this.purchaseAmount);
+            int currentBalance = currentDevice.getCreditBalance();
+            currentBalance += this.purchaseAmount;
+            currentDevice.setCreditBalance(currentBalance);
             userFacade.addCredits(this.currentDevice);
         } catch (Exception e) {
             handleException(e);
