@@ -36,6 +36,8 @@ public class DeviceFileRetrieve {
             bw.write("0");
             bw.newLine();
             bw.write("0");
+            bw.newLine();
+            bw.write("0");
             bw.close();
         }
         try (FileInputStream getFile = new FileInputStream("C:/Users/aleks_uuia3ly/Documents/NetBeansProjects/NPProject4/src/main/resources/device" + deviceSerialNumber + ".txt");
@@ -43,12 +45,17 @@ public class DeviceFileRetrieve {
 
             StringBuilder credits;
             StringBuilder subscription;
+            StringBuilder usedPulses;
             //Get a random word from the txt file
             credits = new StringBuilder(getData.readLine());
             credits.append(",");
             subscription = new StringBuilder(getData.readLine());
+            subscription.append(",");
+            usedPulses = new StringBuilder(getData.readLine());
+            credits.append(subscription);
+            credits.append(usedPulses);
             getData.close();
-            return (credits.append(subscription)).toString();
+            return (credits.toString());
             //return credits.toString();
         } catch (IOException ex) {
             throw ex;

@@ -19,18 +19,20 @@ public class main {
     public static void main(String[] args) {
         //DeviceConnectionController test = new DeviceConnectionController("1");
         DeviceConnectionController test2 = new DeviceConnectionController("2");
+        DeviceDisplayController displaytest2 = new DeviceDisplayController("2");
         DeviceFileRetrieve filetest = new DeviceFileRetrieve();
-        try {
+        //try {
             //test.getDeviceInfo();
             //test2.getDeviceInfo();
             test2.start();
-            System.out.println(filetest.getDataFromFile("2"));
+            displaytest2.start();
+            //System.out.println(filetest.getDataFromFile("2"));
             //filetest.storePulsesFromServerInFile("3","20");
             //System.out.println(filetest.getDataFromFile("3"));
-        } catch (ProtocolException ex) {
+        /*} catch (ProtocolException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
             ex.printStackTrace();
-        }
+        }*/
     }
 }

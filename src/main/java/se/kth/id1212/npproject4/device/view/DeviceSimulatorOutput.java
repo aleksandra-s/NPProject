@@ -22,6 +22,10 @@ public class DeviceSimulatorOutput {
         System.out.println(pulseNumber + "----- BZZT");
     }
     
+     public void printSubscriptionPulse(){
+        System.out.println("----- BZZT");
+    }
+    
     public void print(String toPrint){
         System.out.print(toPrint);
     }
