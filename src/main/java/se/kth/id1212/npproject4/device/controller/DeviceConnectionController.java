@@ -215,7 +215,7 @@ public class DeviceConnectionController implements Runnable{
         /*if (connection.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
            throw new RuntimeException("Failed to create customer" + connection.getResponseCode());
         }*/
-        //System.out.println("Location: " + connection.getHeaderField("Location"));
+        System.out.println("Location: " + connection.getHeaderField("Location"));
         connection.disconnect();
     }
 }

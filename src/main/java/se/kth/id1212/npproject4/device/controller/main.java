@@ -18,9 +18,9 @@ import se.kth.id1212.npproject4.device.model.DeviceFileRetrieve;
 public class main {
     public static void main(String[] args) {
         //DeviceConnectionController test = new DeviceConnectionController("1");
-        DeviceConnectionController test2 = new DeviceConnectionController("2");
-        DeviceDisplayController displaytest2 = new DeviceDisplayController("2");
-        DeviceFileRetrieve filetest = new DeviceFileRetrieve();
+        DeviceConnectionController test2 = new DeviceConnectionController("1");
+        DeviceDisplayController displaytest2 = new DeviceDisplayController("1");
+        //DeviceFileRetrieve filetest = new DeviceFileRetrieve();
         //try {
             //test.getDeviceInfo();
             //test2.getDeviceInfo();
