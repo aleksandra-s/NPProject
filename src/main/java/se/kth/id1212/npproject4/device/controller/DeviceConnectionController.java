@@ -10,16 +10,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
+import java.util.Base64.Encoder;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 //import javax.ws.rs.client.*;
@@ -39,11 +46,14 @@ public class DeviceConnectionController implements Runnable{
     private Date subscriptionDate;
     private String subscriptionString;
     private final DeviceFileRetrieve fileRetrieve;
+    private final String keyString = "devicekey";
+    private final String deviceHash;
     
-    public DeviceConnectionController(String id){
-        deviceURL = REST_URI + "/" + id;
+    public DeviceConnectionController(String id) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException{
         fileRetrieve = new DeviceFileRetrieve();
         deviceSerialNumber = id;
+        deviceHash = sha1(deviceSerialNumber,keyString);
+        deviceURL = REST_URI + "/" + id + "/" + deviceHash;
     }
     
     public void start(){
@@ -66,6 +76,7 @@ public class DeviceConnectionController implements Runnable{
     
     public void getDeviceInfo() throws MalformedURLException, ProtocolException, IOException {
         URL url = new URL(deviceURL);
+        System.out.println(deviceURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Accept", "application/xml");
@@ -217,6 +228,19 @@ public class DeviceConnectionController implements Runnable{
         }*/
         System.out.println("Location: " + connection.getHeaderField("Location"));
         connection.disconnect();
+    }
+    private String sha1(String s, String keyString) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
+
+        SecretKeySpec key = new SecretKeySpec((keyString).getBytes("UTF-8"), "HmacSHA1");
+        Mac mac = Mac.getInstance("HmacSHA1");
+        mac.init(key);
+
+        byte[] bytes = mac.doFinal(s.getBytes("UTF-8"));
+        //String temp = new String(Base64.getEncoder().encode(bytes));
+        Base64.Encoder enc = Base64.getUrlEncoder();
+        
+        return new String(enc.encode(bytes));
+
     }
 }
 

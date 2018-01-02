@@ -8,6 +8,9 @@ package se.kth.id1212.npproject4.device.view;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import se.kth.id1212.npproject4.device.controller.DeviceConnectionController;
@@ -44,6 +47,10 @@ public class DeviceSimulator implements Runnable{
             deviceConnectionController.start();
             deviceDisplayController.start();
         } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (NoSuchAlgorithmException ex) {
+            ex.printStackTrace();
+        } catch (InvalidKeyException ex) {
             ex.printStackTrace();
         }
         

@@ -6,9 +6,15 @@
 package se.kth.id1212.npproject4.device.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.ProtocolException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 import se.kth.id1212.npproject4.device.model.DeviceFileRetrieve;
 
 /**
@@ -17,22 +23,18 @@ import se.kth.id1212.npproject4.device.model.DeviceFileRetrieve;
  */
 public class main {
     public static void main(String[] args) {
-        //DeviceConnectionController test = new DeviceConnectionController("1");
-        DeviceConnectionController test2 = new DeviceConnectionController("1");
-        DeviceDisplayController displaytest2 = new DeviceDisplayController("1");
-        //DeviceFileRetrieve filetest = new DeviceFileRetrieve();
-        //try {
-            //test.getDeviceInfo();
-            //test2.getDeviceInfo();
+            DeviceConnectionController test2;
+        try {
+            test2 = new DeviceConnectionController("2");
             test2.start();
-            displaytest2.start();
-            //System.out.println(filetest.getDataFromFile("2"));
-            //filetest.storePulsesFromServerInFile("3","20");
-            //System.out.println(filetest.getDataFromFile("3"));
-        /*} catch (ProtocolException ex) {
+        } catch (UnsupportedEncodingException ex) {
             ex.printStackTrace();
-        } catch (IOException ex) {
+        } catch (NoSuchAlgorithmException ex) {
             ex.printStackTrace();
-        }*/
+        } catch (InvalidKeyException ex) {
+            ex.printStackTrace();
+        }
+            //DeviceDisplayController displaytest2 = new DeviceDisplayController("1");
+            //displaytest2.start();
     }
 }
