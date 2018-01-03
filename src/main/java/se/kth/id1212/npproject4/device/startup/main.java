@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package se.kth.id1212.npproject4.device.controller;
+package se.kth.id1212.npproject4.device.startup;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import se.kth.id1212.npproject4.device.model.DeviceFileRetrieve;
+import se.kth.id1212.npproject4.device.view.DeviceSimulator;
 
 /**
  *
@@ -23,7 +24,7 @@ import se.kth.id1212.npproject4.device.model.DeviceFileRetrieve;
  */
 public class main {
     public static void main(String[] args) {
-            DeviceConnectionController test2;
+        /*    DeviceConnectionController test2;
         try {
             test2 = new DeviceConnectionController("2");
             test2.start();
@@ -35,6 +36,8 @@ public class main {
             ex.printStackTrace();
         }
             //DeviceDisplayController displaytest2 = new DeviceDisplayController("1");
-            //displaytest2.start();
+            //displaytest2.start();*/
+        DeviceSimulator sim = new DeviceSimulator();
+        sim.start();
     }
 }

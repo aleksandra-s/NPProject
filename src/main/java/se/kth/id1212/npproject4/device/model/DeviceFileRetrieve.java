@@ -100,7 +100,7 @@ public class DeviceFileRetrieve {
         Files.write(path, fileContent, StandardCharsets.UTF_8);
     }
     
-    synchronized public void storeUsedPulsesFromDeviceInFile(String deviceSerialNumber, String pulsesUsed) throws IOException{
+    synchronized public void storeUsedPulsesFromDeviceInFile(String deviceSerialNumber) throws IOException{
         File file = new File("C:/Users/aleks_uuia3ly/Documents/NetBeansProjects/NPProject4/src/main/resources/device" + deviceSerialNumber + ".txt");
         boolean exists = file.exists();
         
@@ -110,8 +110,9 @@ public class DeviceFileRetrieve {
         
         Path path = Paths.get("C:/Users/aleks_uuia3ly/Documents/NetBeansProjects/NPProject4/src/main/resources/device" + deviceSerialNumber + ".txt");
         List<String> fileContent = new ArrayList<>(Files.readAllLines(path, StandardCharsets.UTF_8));
-        fileContent.set(2,pulsesUsed);
-
+        int storedUsedPulses = Integer.parseInt(fileContent.get(2));
+        //int freshlyUsedPulses = Integer.parseInt(pulsesUsed);
+        fileContent.set(2,Integer.toString(storedUsedPulses++));
         Files.write(path, fileContent, StandardCharsets.UTF_8);
     }
 }

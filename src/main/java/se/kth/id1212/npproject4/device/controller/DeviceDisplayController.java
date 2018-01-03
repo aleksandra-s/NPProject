@@ -38,6 +38,7 @@ public class DeviceDisplayController implements Runnable{
         subscriptionDate = new Date(0002,10,30);
         warningIssued = false;
         initialFileCheck = false;
+        pulsesUsed = 0;
     } 
     
     public void start(){
@@ -67,11 +68,13 @@ public class DeviceDisplayController implements Runnable{
                     outputHandler.printLine("Using individual pulses");
                     while(pulsesToUse != 0){
                         pulsesToUse--;
-                        pulsesUsed++;
-                        fileRetrieve.storeUsedPulsesFromDeviceInFile(deviceSerialNumber, Integer.toString(pulsesUsed));
+                        //pulsesUsed++;
+                        fileRetrieve.storeUsedPulsesFromDeviceInFile(deviceSerialNumber);
                         outputHandler.printPulse(pulsesToUse);
                         Thread.sleep(5 * 1000);
                     }
+                    //fileRetrieve.storeUsedPulsesFromDeviceInFile(deviceSerialNumber, Integer.toString(pulsesUsed));
+                    //pulsesUsed = 0;
                 }
                 else if(!warningIssued && initialFileCheck){
                     outputHandler.printOutOfPulsesWarning();
@@ -138,24 +141,28 @@ public class DeviceDisplayController implements Runnable{
         }
         
         public void checkPulses() throws IOException{
-            String deviceDataFromFile = fileRetrieve.getDataFromFile(deviceSerialNumber);
-            int i;
-            int j;
-            for(i = 0; i < deviceDataFromFile.length(); i++){
-                if(deviceDataFromFile.charAt(i) == ','){
-                    break;
+            if(pulsesToUse == 0 || !initialFileCheck){
+                String deviceDataFromFile = fileRetrieve.getDataFromFile(deviceSerialNumber);
+                int i;
+                int j;
+                for(i = 0; i < deviceDataFromFile.length(); i++){
+                    if(deviceDataFromFile.charAt(i) == ','){
+                        break;
+                    }
+                }
+                for(j = i + 1; j < deviceDataFromFile.length(); j++){
+                    if(deviceDataFromFile.charAt(j) == ','){
+                        break;
+                    }
+                }
+                //System.out.println("Checking pulses data " + deviceDataFromFile);
+                //System.out.println("J " + j);
+                int pulsesFromServer = Integer.parseInt(deviceDataFromFile.substring(0,i));
+                int usedPulses = Integer.parseInt(deviceDataFromFile.substring(j+1));
+                if(pulsesFromServer >= usedPulses){
+                    pulsesToUse = pulsesFromServer - usedPulses;
                 }
             }
-            for(j = i + 1; j < deviceDataFromFile.length(); j++){
-                if(deviceDataFromFile.charAt(j) == ','){
-                    break;
-                }
-            }
-            //System.out.println("Checking pulses data " + deviceDataFromFile);
-            //System.out.println("J " + j);
-            int pulsesFromServer = Integer.parseInt(deviceDataFromFile.substring(0,i));
-            int usedPulses = Integer.parseInt(deviceDataFromFile.substring(j+1));
-            pulsesToUse = pulsesFromServer - usedPulses;
         }
     }
 }

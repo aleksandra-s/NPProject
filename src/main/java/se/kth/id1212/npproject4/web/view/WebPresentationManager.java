@@ -74,6 +74,7 @@ public class WebPresentationManager implements Serializable {
     public void findDevice(){
         try {
             startConversation();
+            subscriptionTimeToString = "";
             conversionFailure = null;
             currentDevice = userFacade.findDevice(this.soughtDevice);
             if(this.currentDevice.getSubscriptionDate().before(Calendar.getInstance().getTime())){

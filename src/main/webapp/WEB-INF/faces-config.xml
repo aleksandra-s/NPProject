@@ -4,10 +4,6 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
     <navigation-rule>
-        <from-view-id>/conversion.xhtml</from-view-id>
-            <navigation-case>
-                <if>#{!conversionManager.success}</if>
-                <to-view-id>/error.xhtml</to-view-id>
-            </navigation-case>
+        <from-view-id>/welcome.xhtml</from-view-id>
     </navigation-rule>
 </faces-config>
