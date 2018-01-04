@@ -56,11 +56,19 @@ public class DeviceEntityFacadeREST extends AbstractFacade<DeviceEntity> {
     public void create(DeviceEntity entity) {
         super.create(entity);
     }
-
+/*
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
     public void edit(@PathParam("id") Long id, DeviceEntity entity) {
+        super.edit(entity);
+    }
+  */  
+    @PUT
+    @Path("{id}")
+    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
+    public void editFromWeb(@PathParam("id") Long id, DeviceEntity entity) {
+        //System.out.println("Device entity credit balance: " + entity.getCreditBalance());
         super.edit(entity);
     }
     

@@ -76,7 +76,7 @@ public class DeviceConnectionController implements Runnable{
     
     public void getDeviceInfo() throws MalformedURLException, ProtocolException, IOException {
         URL url = new URL(deviceURL);
-        System.out.println(deviceURL);
+        //System.out.println(deviceURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Accept", "application/xml");
@@ -86,14 +86,14 @@ public class DeviceConnectionController implements Runnable{
                                       + connection.getResponseCode());
         }
 
-        System.out.println("Content-Type: " + connection.getContentType());
+        //System.out.println("Content-Type: " + connection.getContentType());
 
         BufferedReader reader = new BufferedReader(new
                       InputStreamReader(connection.getInputStream()));
 
         String line = reader.readLine();
         while (line != null) {
-           System.out.println(line);
+           //System.out.println(line);
            parsePulses(line); //Parsing out pulses
            //System.out.println("Pulses received from server: " + numberOfPulses);
            parseSubscription(line); //Parsing out subscription
@@ -226,9 +226,11 @@ public class DeviceConnectionController implements Runnable{
         /*if (connection.getResponseCode() != HttpURLConnection.HTTP_CREATED) {
            throw new RuntimeException("Failed to create customer" + connection.getResponseCode());
         }*/
-        System.out.println("Location: " + connection.getHeaderField("Location"));
+        //System.out.println("Location: " + connection.getHeaderField("Location"));
         connection.disconnect();
     }
+    
+    //from user evilone's answer to Stack Overflow question "How to Hash String using SHA-1 with key?"
     private String sha1(String s, String keyString) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
 
         SecretKeySpec key = new SecretKeySpec((keyString).getBytes("UTF-8"), "HmacSHA1");

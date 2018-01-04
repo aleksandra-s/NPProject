@@ -112,7 +112,9 @@ public class DeviceFileRetrieve {
         List<String> fileContent = new ArrayList<>(Files.readAllLines(path, StandardCharsets.UTF_8));
         int storedUsedPulses = Integer.parseInt(fileContent.get(2));
         //int freshlyUsedPulses = Integer.parseInt(pulsesUsed);
-        fileContent.set(2,Integer.toString(storedUsedPulses++));
+        //System.out.println("stored used pulses " + storedUsedPulses);
+        storedUsedPulses++;
+        fileContent.set(2,Integer.toString(storedUsedPulses));
         Files.write(path, fileContent, StandardCharsets.UTF_8);
     }
 }

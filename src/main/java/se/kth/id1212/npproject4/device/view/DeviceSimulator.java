@@ -38,19 +38,22 @@ public class DeviceSimulator implements Runnable{
     public void run(){  
         outputHandler.printLine("Laser Device Simulator");
         outputHandler.printLine("Please enter your device serial number:");
-        outputHandler.printLine("> ");
+        outputHandler.print("> ");
         try {
             String id = reader.readLine();
             outputHandler.printLine("Initializing...");
             deviceConnectionController = new DeviceConnectionController(id);
             deviceDisplayController = new DeviceDisplayController(id);
             deviceConnectionController.start();
+            Thread.sleep(5*1000);
             deviceDisplayController.start();
         } catch (IOException ex) {
             ex.printStackTrace();
         } catch (NoSuchAlgorithmException ex) {
             ex.printStackTrace();
         } catch (InvalidKeyException ex) {
+            ex.printStackTrace();
+        } catch (InterruptedException ex) {
             ex.printStackTrace();
         }
         

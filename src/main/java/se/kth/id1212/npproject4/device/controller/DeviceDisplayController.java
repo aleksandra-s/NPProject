@@ -64,7 +64,7 @@ public class DeviceDisplayController implements Runnable{
                 }
                 else if(pulsesToUse != 0 && initialFileCheck){
                     warningIssued = false;
-                    System.out.println("subscription: " + subscriptionDate + " " + subscriptionString);
+                    //System.out.println("subscription: " + subscriptionDate + " " + subscriptionString);
                     outputHandler.printLine("Using individual pulses");
                     while(pulsesToUse != 0){
                         pulsesToUse--;
