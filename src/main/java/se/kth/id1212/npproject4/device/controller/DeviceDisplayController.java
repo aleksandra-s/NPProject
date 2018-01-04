@@ -45,7 +45,8 @@ public class DeviceDisplayController implements Runnable{
     @Override
     public void run() {
         try {
-            while (true) {
+            while (true) { //Loop that consumes and prints laser pulses as they become available
+                //If subscription has not expired, print infinite pulses
                 if(!subscriptionDate.before(Calendar.getInstance().getTime()) && initialFileCheck){
                     warningIssued = false;
                     outputHandler.printLine("Using subscription pulses until " + subscriptionString);
@@ -55,6 +56,7 @@ public class DeviceDisplayController implements Runnable{
                     }
                     
                 }
+                //If subscription has expired, but individual pulses are available, print them until they run out
                 else if(pulsesToUse != 0 && initialFileCheck){
                     warningIssued = false;
                     outputHandler.printLine("Using individual pulses");
@@ -65,6 +67,7 @@ public class DeviceDisplayController implements Runnable{
                         Thread.sleep(5 * 1000);
                     }
                 }
+                //If subscription has expired and no individual pulses are available, print 'out of pulses' warning
                 else if(!warningIssued && initialFileCheck){
                     outputHandler.printOutOfPulsesWarning();
                     warningIssued = true;
@@ -75,6 +78,7 @@ public class DeviceDisplayController implements Runnable{
         }
     }
     
+    //Private class that polls device file for updated pulse and subscription info
     private class FileChecker implements Runnable {
 
         @Override

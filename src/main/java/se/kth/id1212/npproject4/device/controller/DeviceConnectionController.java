@@ -46,9 +46,9 @@ public class DeviceConnectionController implements Runnable{
     }
     
     @Override
-    public void run() {
+    public void run() { 
         try {
-            while (true) {
+            while (true) { //Loop that polls database and updates info in device file
                 getDeviceInfo();
                 updatePulses(this.numberOfPulses);
                 updateSubscriptionDate(this.subscriptionDate, this.subscriptionString);
@@ -59,11 +59,13 @@ public class DeviceConnectionController implements Runnable{
         }
     }
     
+    //Method to receive device information (credit balance and subscription expiry date) from database
     public void getDeviceInfo() throws MalformedURLException, ProtocolException, IOException {
+        //Invoke RESTful GET method
         URL url = new URL(deviceURL);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
-        connection.setRequestProperty("Accept", "application/xml");
+        connection.setRequestProperty("Accept", "application/xml"); 
 
         if (connection.getResponseCode() != 200) {
           throw new RuntimeException("Operation failed: "
@@ -71,15 +73,18 @@ public class DeviceConnectionController implements Runnable{
         }
 
         //System.out.println("Content-Type: " + connection.getContentType());
-
+        
+        //Read content received
         BufferedReader reader = new BufferedReader(new
                       InputStreamReader(connection.getInputStream()));
 
         String line = reader.readLine();
+       
+        //Parse content received
         while (line != null) {
            //System.out.println(line);
-           parsePulses(line); //Parsing out pulses
-           parseSubscription(line); //Parsing out subscription
+           parsePulses(line); 
+           parseSubscription(line); 
            line = reader.readLine();
         }
         connection.disconnect();
@@ -107,18 +112,21 @@ public class DeviceConnectionController implements Runnable{
         this.numberOfPulses = Integer.parseInt(pulses);
     }
     
+    //Update new amount of available pulses to device file
     public void updatePulses(int receivedPulses) throws IOException{
-        String deviceDataFromFile = fileRetrieve.getDataFromFile(deviceSerialNumber);
+        //Get available pulse amount from file and parse 
+        String deviceDataFromFile = fileRetrieve.getDataFromFile(deviceSerialNumber); 
         int i;
         for(i = 0; i < deviceDataFromFile.length(); i++){
             if(deviceDataFromFile.charAt(i) == ','){
                 break;
             }
         }
-        int pulsesFromFile = Integer.parseInt(deviceDataFromFile.substring(0,i)); //get pulses from file
+        
+        int pulsesFromFile = Integer.parseInt(deviceDataFromFile.substring(0,i)); 
         String pulsesToStore = Integer.toString(pulsesFromFile + receivedPulses);
-        fileRetrieve.storePulsesFromServerInFile(deviceSerialNumber, pulsesToStore);
-        updateServerDatabase();
+        fileRetrieve.storePulsesFromServerInFile(deviceSerialNumber, pulsesToStore); //Store total amount of pulses ever available to device in file
+        updateServerDatabase();  //Update the device credit balance stored in database to 0 because device has consumed them
     }
     
     public void parseSubscription (String httpResponse){
@@ -143,7 +151,9 @@ public class DeviceConnectionController implements Runnable{
         }
     }
     
+    //Update new subscription expiry date to device file
     public void updateSubscriptionDate(Date receivedSubscription, String subscriptionString) throws IOException{
+        //Get subscription expiry date from file and parse 
         String deviceDataFromFile = fileRetrieve.getDataFromFile(deviceSerialNumber);
         int j = 0;
         int k = 0;
@@ -165,12 +175,16 @@ public class DeviceConnectionController implements Runnable{
         } catch (ParseException ex) {
             ex.printStackTrace();
         } 
+        
+        //Store new subscription expiry date in file
         if(!receivedSubscription.equals(subscriptionFromFile)){
             fileRetrieve.storeSubscriptionDateFromServerInFile(deviceSerialNumber, subscriptionString);
         }
     }
     
+    //Update the device credit balance stored in database to 0 
     public void updateServerDatabase() throws MalformedURLException, IOException{
+        //Invoke RESTful PUT method
         URL url = new URL(deviceURL + "/0");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setDoOutput(true);
