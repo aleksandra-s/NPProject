@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package se.kth.id1212.npproject4.device.controller;
 
 import java.io.IOException;
@@ -50,10 +46,7 @@ public class DeviceDisplayController implements Runnable{
     public void run() {
         try {
             while (true) {
-                //getDeviceInfo();
                 if(!subscriptionDate.before(Calendar.getInstance().getTime()) && initialFileCheck){
-                    //pulsesToUse = pulsesToUse + 100;
-                    //System.out.println("subscription: " + subscriptionDate + " " + subscriptionString);
                     warningIssued = false;
                     outputHandler.printLine("Using subscription pulses until " + subscriptionString);
                     while(!subscriptionDate.before(Calendar.getInstance().getTime())){
@@ -64,17 +57,13 @@ public class DeviceDisplayController implements Runnable{
                 }
                 else if(pulsesToUse != 0 && initialFileCheck){
                     warningIssued = false;
-                    //System.out.println("subscription: " + subscriptionDate + " " + subscriptionString);
                     outputHandler.printLine("Using individual pulses");
                     while(pulsesToUse != 0){
                         pulsesToUse--;
-                        //pulsesUsed++;
                         fileRetrieve.storeUsedPulsesFromDeviceInFile(deviceSerialNumber);
                         outputHandler.printPulse(pulsesToUse);
                         Thread.sleep(5 * 1000);
                     }
-                    //fileRetrieve.storeUsedPulsesFromDeviceInFile(deviceSerialNumber, Integer.toString(pulsesUsed));
-                    //pulsesUsed = 0;
                 }
                 else if(!warningIssued && initialFileCheck){
                     outputHandler.printOutOfPulsesWarning();
@@ -86,14 +75,12 @@ public class DeviceDisplayController implements Runnable{
         }
     }
     
-    //public getAvailablePulsesInFile
     private class FileChecker implements Runnable {
 
         @Override
         public void run() {
             try{
                 for (;;) {
-                    //fileRetrieve.getDataFromFile(deviceSerialNumber);
                     checkSubscription();
                     checkPulses();
                     if(!initialFileCheck){
@@ -116,23 +103,16 @@ public class DeviceDisplayController implements Runnable{
             int commaCounter = 0;
             Date subscriptionFromFile = null;
             for(int i = 0; i < deviceDataFromFile.length(); i++){
-            //System.out.println(deviceDataFromFile.charAt(i));
-            if(deviceDataFromFile.charAt(i) == ',' && commaCounter == 0){
-                commaCounter++;
-                j = i;
-                //System.out.println("Comma counter " + commaCounter + " j: " + j);
+                if(deviceDataFromFile.charAt(i) == ',' && commaCounter == 0){
+                    commaCounter++;
+                    j = i;
+                }
+                else if(deviceDataFromFile.charAt(i) == ',' && commaCounter == 1){
+                    k = i;
+                    break;
+                }
             }
-            else if(deviceDataFromFile.charAt(i) == ',' && commaCounter == 1){
-                //commaCounter++;
-                //System.out.println("k " + k + " i " + i);
-                k = i;
-                break;
-            }
-        }
-        //System.out.println("J: " + j);
             String subscriptionData = deviceDataFromFile.substring(j+1,k);
-            
-            //String subscriptionData = deviceDataFromFile.substring(j+1);
             subscriptionFromFile = new SimpleDateFormat("yyyy-MM-dd").parse(subscriptionData);
             if(subscriptionFromFile.after(subscriptionDate)){
                 subscriptionDate = subscriptionFromFile;
@@ -155,8 +135,6 @@ public class DeviceDisplayController implements Runnable{
                         break;
                     }
                 }
-                //System.out.println("Checking pulses data " + deviceDataFromFile);
-                //System.out.println("J " + j);
                 int pulsesFromServer = Integer.parseInt(deviceDataFromFile.substring(0,i));
                 int usedPulses = Integer.parseInt(deviceDataFromFile.substring(j+1));
                 if(pulsesFromServer >= usedPulses){

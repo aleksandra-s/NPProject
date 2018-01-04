@@ -1,21 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package se.kth.id1212.npproject4.web.integration;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URI;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Base64;
-import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.ejb.Stateless;
@@ -30,7 +20,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import se.kth.id1212.npproject4.web.model.DeviceEntity;
 
 /**
@@ -56,19 +45,11 @@ public class DeviceEntityFacadeREST extends AbstractFacade<DeviceEntity> {
     public void create(DeviceEntity entity) {
         super.create(entity);
     }
-/*
-    @PUT
-    @Path("{id}")
-    @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
-    public void edit(@PathParam("id") Long id, DeviceEntity entity) {
-        super.edit(entity);
-    }
-  */  
+
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
     public void editFromWeb(@PathParam("id") Long id, DeviceEntity entity) {
-        //System.out.println("Device entity credit balance: " + entity.getCreditBalance());
         super.edit(entity);
     }
     
@@ -82,10 +63,7 @@ public class DeviceEntityFacadeREST extends AbstractFacade<DeviceEntity> {
                 DeviceEntity entity = super.find(id);
                 entity.setCreditBalance(creditBalance);
                 super.edit(entity);
-                //Response.created(URI.create("se.kth.id1212.npproject4.web.model.deviceentity/"
-                //+ entity.getId())).build();
             }
-            //return Response.noContent().build();
         } catch (UnsupportedEncodingException ex) {
             
         } catch (NoSuchAlgorithmException ex) {
@@ -135,14 +113,7 @@ public class DeviceEntityFacadeREST extends AbstractFacade<DeviceEntity> {
     public List<DeviceEntity> findAll() {
         return super.findAll();
     }
-/*
-    @GET
-    @Path("{from}/{to}")
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
-    public List<DeviceEntity> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return super.findRange(new int[]{from, to});
-    }
-*/
+
     @GET
     @Path("count")
     @Produces(MediaType.TEXT_PLAIN)
@@ -155,6 +126,7 @@ public class DeviceEntityFacadeREST extends AbstractFacade<DeviceEntity> {
         return em;
     }
     
+    //method sha1() adapted from user evilone's answer to Stack Overflow question "How to Hash String using SHA-1 with key?"
     private String sha1(String s, String keyString) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException {
 
         SecretKeySpec key = new SecretKeySpec((keyString).getBytes("UTF-8"), "HmacSHA1");
