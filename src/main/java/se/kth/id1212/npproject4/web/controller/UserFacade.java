@@ -20,8 +20,7 @@ public class UserFacade {
     
     Client client = ClientBuilder.newClient(); 
     public DeviceEntity findDevice(Long serialNumber){
-        WebTarget target = client.target("http://localhost:8080/NPProject4/webresources/se.kth.id1212.npproject4.web.model.deviceentity/" + serialNumber.toString());
-        
+        WebTarget target = client.target("http://localhost:8080/NPProject4/webresources/se.kth.id1212.npproject4.web.model.deviceentity/" + serialNumber.toString());   
         return target.request(MediaType.APPLICATION_XML).get(DeviceEntity.class);
     }
     

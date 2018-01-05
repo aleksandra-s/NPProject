@@ -63,6 +63,7 @@ public class DeviceConnectionController implements Runnable{
     public void getDeviceInfo() throws MalformedURLException, ProtocolException, IOException {
         //Invoke RESTful GET method
         URL url = new URL(deviceURL);
+        System.out.println(url);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setRequestProperty("Accept", "application/xml"); 
@@ -82,7 +83,7 @@ public class DeviceConnectionController implements Runnable{
        
         //Parse content received
         while (line != null) {
-           //System.out.println(line);
+           System.out.println(line);
            parsePulses(line); 
            parseSubscription(line); 
            line = reader.readLine();
@@ -186,11 +187,18 @@ public class DeviceConnectionController implements Runnable{
     public void updateServerDatabase() throws MalformedURLException, IOException{
         //Invoke RESTful PUT method
         URL url = new URL(deviceURL + "/0");
+        System.out.println(url);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setDoOutput(true);
         connection.setInstanceFollowRedirects(false);
         connection.setRequestMethod("PUT");
         connection.setRequestProperty("Content-Type", "application/xml");
+         BufferedReader reader = new BufferedReader(new
+                      InputStreamReader(connection.getInputStream()));
+
+        String line = reader.readLine();
+        while (line != null) {
+        }
         connection.disconnect();
     }
     

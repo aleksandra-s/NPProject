@@ -1,6 +1,7 @@
 
 package se.kth.id1212.npproject4.web.integration;
 
+import com.sun.xml.internal.ws.client.sei.ResponseBuilder;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -20,6 +21,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+//import javax.ws.rs.core.Response.ResponseBuilder;
 import se.kth.id1212.npproject4.web.model.DeviceEntity;
 
 /**
@@ -39,13 +42,15 @@ public class DeviceEntityFacadeREST extends AbstractFacade<DeviceEntity> {
         super(DeviceEntity.class);
     }
 
+    /*
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
     public void create(DeviceEntity entity) {
         super.create(entity);
     }
-
+    */
+    
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
@@ -56,28 +61,28 @@ public class DeviceEntityFacadeREST extends AbstractFacade<DeviceEntity> {
     @PUT
     @Path("{id}/{hash}/{credits}")
     @Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
-    public void editFromDevice(@PathParam("id") Long id, @PathParam("credits") int creditBalance, @PathParam("hash") String hash) {
+    public void editFromDevice(@PathParam("id") Long id, @PathParam("hash") String hash, @PathParam("credits") int creditBalance) {
         try {
             String stringId = id.toString();
-            if(sha1(stringId,keyString).equals(hash)){
+            String temp = sha1(stringId,keyString);
+            if(temp.equals(hash)){
                 DeviceEntity entity = super.find(id);
                 entity.setCreditBalance(creditBalance);
                 super.edit(entity);
             }
         } catch (UnsupportedEncodingException ex) {
-            
         } catch (NoSuchAlgorithmException ex) {
-            
         } catch (InvalidKeyException ex) {
-            
         }
     }
 
+    /*
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Long id) {
         super.remove(super.find(id));
     }
+    */
 
     @GET
     @Path("{id}")
@@ -93,7 +98,6 @@ public class DeviceEntityFacadeREST extends AbstractFacade<DeviceEntity> {
         try {
             String stringId = id.toString();
             String temp = sha1(stringId,keyString);
-            System.out.println(temp);
             if(temp.equals(hash)){
                 return super.find(id);
             }
